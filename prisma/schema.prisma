@@ -1,0 +1,30 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+//　postgresql 初期値
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+//スキーマ設定
+//1：記事　多：コメント
+model Comment {
+  id Int @default(autoincrement()) @id
+  comment String
+  post Posts @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+
+//　モデル作成
+model Posts {
+  id Int @default(autoincrement()) @id
+  title String
+  body String
+  comments Comment[]
+}
